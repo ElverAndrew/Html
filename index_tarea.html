@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REGISTRO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!--(C)reate, (R)ead, (U)pdate, (D)elete-->
+</head>
+
+<body background="fondo.jpg">
+    <div class="container">
+        <h1>Registro de datos del trabajador</h1>
+        <form>
+            <div class="form-group">
+                <label>Nombre y Apellidos</label>
+                <input type="text" class="form-control" name="nombre" required="" placeholder="Ingrese sus nombres y apellidos" id="nombre" />
+            </div>
+            <div class="form-group">
+                <label>DNI</label>
+                <input type="number" class="form-control" name="dni" required="" placeholder="Ingrese su DNI" id="dni" pattern="[0-9]" />
+            </div>
+            <div class="form-group">
+                <label for="Sexo">Sexo</label>
+                <select name="Sexo" id="Sexo" required="">
+                    <option selected disabled="">Selecciona una alternativa</option>
+                    <option value = "Masculino">Masculino</option>
+                    <option value = "Femenino">Femenino</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="nacionalidad">Nacionalidad</label>
+                <select name="nacionalidad" id="nacionalidad" required="">
+                    <option selected disabled="">Selecciona una alternativa</option>
+                    <option value = "Argentina">Argentina</option>
+                    <option value = "Bolivia">Bolivia</option>
+                    <option value = "Brasil">Brasil</option>
+                    <option value = "Chile">Chile</option>
+                    <option value = "Colombia">Colombia</option>
+                    <option value = "Ecuador">Ecuador</option>
+                    <option value = "Guyana">Guyana</option>
+                    <option value = "Guyana Francesa">Guyana Francesa</option>
+                    <option value = "Paraguay">Paraguay</option>
+                    <option value = "Perú">Per&uacute</option>
+                    <option value = "Uruguay">Uruguay</option>
+                    <option value = "Venezuela">Venezuela</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Fecha">Fecha de nacimiento</label>
+                <input type="date" name="fecha" id="fecha" required="" />
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email" required="" placeholder="usuario@dominio" id="email" />
+            </div>
+            <button type="submit" class="btn btn-success save-btn">Grabar</button>
+        </form>
+        <br>
+        <table class="table table-bordered data-table">
+            <thead>
+                <th width="250px">Nombre</th>
+                <th>DNI</th>
+                <th>Sexo</th>
+                <th>Pa&iacutes</th>
+                <th>Fecha de nacimiento</th>
+                <th>Email</th>
+                <th width="250px">Acciones</th>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <script>
+        $("form").submit(function(e) {
+            e.preventDefault();
+            var nombre = $("input[name=nombre]").val();
+            var dni = $("input[name=dni]").val();
+            var sexo = $("select[name=Sexo]").val();
+            var nacionalidad = $("select[name=nacionalidad]").val();
+            var fecha = $("input[name=fecha]").val();
+            var email = $("input[name=email]").val();
+            $(".data-table tbody").append("<tr data-name='" + nombre + "' data-dni='" + dni + "' data-sexo='" + sexo + "' data-nacionalidad='" + nacionalidad + "' data-fecha='" + fecha + "' data-email='" + email + "'><td>" + nombre + "</td><td>" + dni + "</td><td>" + sexo + "</td><td>" + nacionalidad + "</td><td>" + fecha + "</td><td>" + email + "</td><td><button class='btn btn-info btn-xs btn-edit'>Editar</button>&nbsp;<button class='btn btn-danger btn-xs btn-delete'>Eliminar</button></td></tr>");
+            $("input[name=nombre]").val('');
+            $("input[name=dni]").val('');
+            $("select[name=Sexo]").val('');
+            $("select[name=nacionalidad]").val('');
+            $("input[name=fecha]").val('');
+            $("input[name=email]").val('');
+        });
+
+        $("body").on("click", ".btn-delete", function() {
+            $(this).parents("tr").remove();
+        });
+
+        $("body").on("click", ".btn-edit", function() {
+            var nombre = $(this).parents("tr").attr("data-name");
+            $("input[name=nombre]").val(nombre);
+            var dni = $(this).parents("tr").attr("data-dni");
+            $("input[name=dni]").val(dni);
+            var sexo = $(this).parents("tr").attr("data-sexo");
+            $("select[name=Sexo]").val(sexo);
+            var nacionalidad = $(this).parents("tr").attr("data-nacionalidad");
+            $("select[name=nacionalidad]").val(nacionalidad);
+            var fecha = $(this).parents("tr").attr("data-fecha");
+            $("input[name=fecha]").val(fecha);
+            var email = $(this).parents("tr").attr("data-email");
+            $("input[name=email]").val(email);
+
+            $(this).parents("tr").find("td:eq(6)").prepend("<button class='btn btn-info btn-xs btn-update'>Actualizar</button>&nbsp;<button class='btn btn-warning btn-xs btn-cancel'>Cancelar</button>");
+            $(this).hide();
+
+        });
+
+        $("body").on("click", ".btn-update", function() {
+            var nombre = $("input[name=nombre]").val();
+            var dni = $("input[name=dni]").val();
+            var sexo = $("select[name=Sexo]").val();
+            var nacionalidad = $("select[name=nacionalidad]").val();
+            var fecha = $("input[name=fecha]").val();
+            var email = $("input[name=email]").val();
+            $(this).parents("tr").find("td:eq(0)").text(nombre);
+            $(this).parents("tr").find("td:eq(1)").text(dni);
+            $(this).parents("tr").find("td:eq(2)").text(sexo);
+            $(this).parents("tr").find("td:eq(3)").text(nacionalidad);
+            $(this).parents("tr").find("td:eq(4)").text(fecha);
+            $(this).parents("tr").find("td:eq(5)").text(email);
+
+            $("input[name=nombre]").val('');
+            $("input[name=dni]").val('');
+            $("select[name=Sexo]").val('');
+            $("select[name=nacionalidad]").val('');
+            $("input[name=fecha]").val('');
+            $("input[name=email]").val('');
+
+            $(this).parents("tr").find(".btn-edit").show();
+            $(this).parents("tr").find(".btn-update").remove();
+            $(this).parents("tr").find(".btn-cancel").remove();
+
+        });
+
+        $("body").on("click", ".btn-cancel", function() {
+            var nombre = $(this).parents("tr").attr("data-name");
+            var dni = $(this).parents("tr").attr("data-dni");
+            var sexo = $(this).parents("tr").attr("data-sexo");
+            var nacionalidad = $(this).parents("tr").attr("data-nacionalidad");
+            var fecha = $(this).parents("tr").attr("data-fecha");
+            var email = $(this).parents("tr").attr("data-email");
+
+            $(this).parents("tr").find("td:eq(0)").text(nombre);
+            $(this).parents("tr").find("td:eq(1)").text(dni);
+            $(this).parents("tr").find("td:eq(2)").text(sexo);
+            $(this).parents("tr").find("td:eq(3)").text(nacionalidad);
+            $(this).parents("tr").find("td:eq(4)").text(fecha);
+            $(this).parents("tr").find("td:eq(5)").text(email);
+
+            $(this).parents("tr").find(".btn-edit").show();
+            $(this).parents("tr").find(".btn-update").remove();
+            $(this).parents("tr").find(".btn-cancel").remove();
+
+        });
+    </script>
+</body>
+
+</html>
